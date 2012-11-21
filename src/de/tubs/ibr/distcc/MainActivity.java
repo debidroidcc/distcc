@@ -117,7 +117,8 @@ public class MainActivity extends Activity {
 										@Override
 										public void run() {
 											textView.append(str);
-											//To change body of implemented methods use File | Settings | File Templates.
+											//this should to the auto scroll trick!
+											textView.scrollTo(0, 5);
 										}
 									});
 								}
