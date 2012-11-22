@@ -43,6 +43,7 @@ $busybox chroot $debian_dir /bin/mount -t sysfs sysfs /sys
 $busybox chroot $debian_dir /usr/bin/apt-get update
 $busybox chroot $debian_dir /usr/bin/apt-get -y upgrade
 $busybox chroot $debian_dir /usr/bin/apt-get -y install openssh-server vim net-tools wget gcc make sudo patch
+$busybox chroot $debian_dir /usr/bin/apt-get -y install lib-gmp3dev lib-mpfrdev libmpc-dev
 
 # replace sshd port & restart
 cat $debian_dir/etc/ssh/sshd_config | sed -e 's/Port 22/Port 222/g' > $debian_dir/etc/ssh/sshd_config
