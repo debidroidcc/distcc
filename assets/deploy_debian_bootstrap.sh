@@ -14,14 +14,14 @@ target_dir=$target_mountpoint
 debian_dir=$target_dir/debian
 
 # remount target mountpoint
-echo Remounting $target_mountpoint
+echo "Remounting $target_mountpoint"
 $busybox mount -o remount,exec,dev,suid $target_mountpoint
 
 # unpack bootstrapped debian:
 cd $target_dir
-echo downloading debian_bootstrap.tar.gz
+echo "downloading debian_bootstrap.tar.gz"
 $busybox wget -O debian_bootstrap.tar.gz $debootstrap_file_url
-echo untaring...
+echo "untaring..."
 $busybox tar -xzf debian_bootstrap.tar.gz
 $busybox rm debian_bootstrap.tar.gz
 
@@ -40,9 +40,13 @@ $busybox chroot $debian_dir /bin/mount -t proc proc /proc
 $busybox chroot $debian_dir /bin/mount -t sysfs sysfs /sys
 
 # apt-get stuff
+echo "calling apt-get update"
 $busybox chroot $debian_dir /usr/bin/apt-get update
+echo "calling apt-get -y upgrade"
 $busybox chroot $debian_dir /usr/bin/apt-get -y upgrade
+echo "calling apt-get -y install openssh-server vim net-tools wget gcc make sudo patch"
 $busybox chroot $debian_dir /usr/bin/apt-get -y install openssh-server vim net-tools wget gcc make sudo patch
+echo "calling apt-get -y install libgmp3-dev libmpfr-dev libmpc-dev"
 $busybox chroot $debian_dir /usr/bin/apt-get -y install libgmp3-dev libmpfr-dev libmpc-dev
 
 # replace sshd port & restart
