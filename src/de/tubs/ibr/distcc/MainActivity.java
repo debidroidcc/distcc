@@ -118,7 +118,9 @@ public class MainActivity extends Activity {
 										public void run() {
 											textView.append(str);
 											//this should to the auto scroll trick!
-											textView.scrollTo(0, 5);
+											if(textView.getLineCount()*textView.getLineHeight() > textView.getHeight()) {
+												textView.scrollBy(0, textView.getLineHeight());
+											}
 										}
 									});
 								}
