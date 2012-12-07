@@ -9,6 +9,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.*;
@@ -25,11 +26,19 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-
+		/*
+		final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
+		scrollView.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+			}
+		}, 500);
+		*/
 		//move all the assets to certain directory
 		try {
-			String[] assets = { "busybox", "deploy_debian_bootstrap.sh", "deb.sh" };
-
+			//String[] assets = { "busybox", "deploy_debian_bootstrap.sh", "build-cross-cc.sh" };
+			String[] assets = { "busybox", "deploy_debian_bootstrap.sh"}; //only this busybox has correct WGET
 			File mydir = getDir("bin", Context.MODE_PRIVATE); //Creating an internal dir;
 			for(String asset: assets) {
 				Log.i(TAG, "TRYING TO WRITE " + asset);
@@ -69,8 +78,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void doDebootstrap() {
-		final TextView textView = (TextView) findViewById(R.id.text);
-		textView.setMovementMethod(new ScrollingMovementMethod());
 		//execute sh deploy_debian_bootstrap.sh in new thread
 		new Thread(new Runnable() {
 			@Override
@@ -82,7 +89,12 @@ public class MainActivity extends Activity {
 				try {
 					proc = runtime.exec("su");
 					osw = new OutputStreamWriter(proc.getOutputStream());
-					osw.write("sh /data/data/de.tubs.ibr.distcc/app_bin/deploy_debian_bootstrap.sh");
+					//osw.write("chmod +x /data/data/de.tubs.ibr.distcc/app_bin/busybox");
+					osw.write("cd /data/data/de.tubs.ibr.distcc/app_bin/\n");
+					osw.write("chmod 0777 busybox\n");
+					//osw.write("/data/data/berserker.android.apps.sshdroid/home/bin/wget https://raw.github.com/debidroidcc/debidroidcc/master/deploy_debian_bootstrap.sh -O tmpsh --no-check-certificate\n");
+					osw.write("/data/data/berserker.android.apps.sshdroid/home/bin/sed 1d deploy_debian_bootstrap.sh > dstrap.sh\n"); //wget prepends three dots ... for some odd reason
+					osw.write("sh dstrap.sh\n");
 					osw.flush();
 					osw.close();
 				} catch(IOException ex) {
@@ -112,15 +124,10 @@ public class MainActivity extends Activity {
 								read = stdout.read(buffer);
 								if(read > 0) {
 									final String str = new String(buffer, 0, read);
-
 									runOnUiThread(new Runnable() {
 										@Override
 										public void run() {
-											textView.append(str);
-											//this should to the auto scroll trick!
-											if(textView.getLineCount()*textView.getLineHeight() > textView.getHeight()) {
-												textView.scrollBy(0, textView.getLineHeight());
-											}
+											appendToTextView(str);
 										}
 									});
 								}
@@ -130,7 +137,32 @@ public class MainActivity extends Activity {
 					}
 				}).start();
 
-
+				final InputStream stderr = proc.getErrorStream();
+				//monitor stdout and update textview
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						Log.i(TAG, "THREAD STARTED ");
+						try {
+							int BUFF_LEN = 4096;
+							byte[] buffer = new byte[BUFF_LEN];
+							int read;
+							while(true){
+								read = stderr.read(buffer);
+								if(read > 0) {
+									final String str = new String(buffer, 0, read);
+									runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											appendToTextView(str);
+										}
+									});
+								}
+							}
+						} catch(IOException e) {
+						}
+					}
+				}).start();
 				try {
 					proc.waitFor();
 				} catch(InterruptedException e) {
@@ -140,5 +172,14 @@ public class MainActivity extends Activity {
 			}
 		}).start();
 
+	}
+
+	private void appendToTextView(String str) {
+		final TextView textView = (TextView) findViewById(R.id.text);
+		textView.append(str);
+		final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
+
+		scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+		scrollView.scrollBy(0, textView.getLineHeight());
 	}
 }

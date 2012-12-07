@@ -1,4 +1,5 @@
-﻿#!/system/bin/sh
+﻿
+#!/system/bin/sh
 
 # this must be executed as superuser
 # debian is then deployed in the /data directory
@@ -44,15 +45,20 @@ echo "calling apt-get update"
 $busybox chroot $debian_dir /usr/bin/apt-get update
 echo "calling apt-get -y upgrade"
 $busybox chroot $debian_dir /usr/bin/apt-get -y upgrade
-echo "calling apt-get -y install openssh-server vim net-tools wget gcc make sudo patch"
-$busybox chroot $debian_dir /usr/bin/apt-get -y install openssh-server vim net-tools wget gcc make sudo patch
 echo "calling apt-get -y install libgmp3-dev libmpfr-dev libmpc-dev"
 $busybox chroot $debian_dir /usr/bin/apt-get -y install libgmp3-dev libmpfr-dev libmpc-dev
+echo "calling apt-get -y install openssh-server vim net-tools wget gcc make sudo patch"
+$busybox chroot $debian_dir /usr/bin/apt-get -y install openssh-server vim net-tools wget gcc make sudo patch
+
 
 # replace sshd port & restart
 cat $debian_dir/etc/ssh/sshd_config | sed -e 's/Port 22/Port 222/g' > $debian_dir/etc/ssh/sshd_config
 $busybox chroot $debian_dir /etc/init.d/ssh restart
 
+$busybox chroot $debian_dir /usr/bin/wget https://raw.github.com/debidroidcc/debidroidcc/master/build-cross-cc.sh -O /opt/build-cross-cc.sh --no-check-certificate
+echo 'building cross compiler, this might take a few minutes!'
+$busybox chroot $debian_dir /bin/bash /opt/build-cross-cc.sh 1> /dev/null
+echo 'cross compiler completed...'
 
 # spawn login shell
 # $busybox chroot $debian_dir /bin/bash -l
