@@ -4,7 +4,7 @@
 			 android:versionCode="1"
 			 android:versionName="1.0">
 	<uses-sdk android:minSdkVersion="16"/>
-	<application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+	<application android:label="@string/app_name" android:icon="@drawable/owl_icon">
 
 		<activity android:name="MainActivity"
 					 android:label="@string/app_name">
@@ -13,5 +13,6 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
+		<activity android:name=".PreferencesActivity"></activity>
 	</application>
 </manifest>
