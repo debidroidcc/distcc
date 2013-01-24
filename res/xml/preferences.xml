@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+	<PreferenceCategory
+			android:title="@string/pref_cat_debian"
+			android:key="pref_key_debian">
+
+
+		<EditTextPreference
+				android:title="@string/pref_targetDebian"
+				android:key="pref_targetDebian"
+				android:summary="Target directory where the Debian goes, relative to /data"
+				android:defaultValue="@string/pref_targetDebian_d"
+				/>
+
+	</PreferenceCategory>
+</PreferenceScreen>

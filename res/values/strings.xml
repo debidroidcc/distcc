@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">distcc</string>
+	<string name="app_desc">Client for distributed compiling...</string>
+
+	<string name="menu_options">Options</string>
+	<string name="menu_exit">Exit</string>
+	<string name="menu_toggle">Start</string>
+	<string name="menu_forcestop">Force Stop</string>
+	<string name="menu_install">Install</string>
+	<string name="menu_remove">Uninstall</string>
+
+	<string name="pref_cat_debian">Debian</string>
+
+	<string name="pref_targetDebian">Target Directory</string>
+	<string name="pref_targetDebian_d">/debian</string>
+	<string name="pref_server_port">Port</string>
+	<string name="pref_server_port_d">12345</string>
 </resources>
