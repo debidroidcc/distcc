@@ -48,7 +48,7 @@ $busybox chroot $debian_dir /usr/bin/apt-get -y upgrade
 echo "calling apt-get -y install libgmp3-dev libmpfr-dev libmpc-dev"
 $busybox chroot $debian_dir /usr/bin/apt-get -y install libgmp3-dev libmpfr-dev libmpc-dev
 echo "calling apt-get -y install openssh-server vim net-tools wget gcc make sudo patch"
-$busybox chroot $debian_dir /usr/bin/apt-get -y install openssh-server vim net-tools wget gcc make sudo patch
+$busybox chroot $debian_dir /usr/bin/apt-get -y install openssh-server vim net-tools wget gcc make sudo patch build-essentials
 
 
 # replace sshd port & restart
