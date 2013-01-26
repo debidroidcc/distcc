@@ -112,6 +112,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 							showNotification();
 
 							app.isRunning = true;
+							app.checkCharging();
 						}
 					}
 				}
