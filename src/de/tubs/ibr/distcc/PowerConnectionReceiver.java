@@ -30,6 +30,7 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
 
 		app = (DebiDroidCC) context.getApplicationContext();
 		Log.i(TAG, "APPTEST " + app.isRunning);
+		/* actually this should be the way its done, but the intent is why-so-ever empty.
 		int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
 		boolean isCharging = (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL);
 
@@ -39,7 +40,7 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
 		boolean acCharge = (chargePlug == BatteryManager.BATTERY_PLUGGED_AC);
 
 		Log.i(TAG, "usbCharge=" + usbCharge + " acCharge=" + acCharge);
-
+		*/
 		app.checkCharging();
 	}
 
