@@ -21,6 +21,7 @@ public class PreferencesActivity extends Activity {
 
 
 	public static final String KEY_TARGET = "pref_targetDebian";
+	public static final String KEY_MASTERIP = "pref_masterIP";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

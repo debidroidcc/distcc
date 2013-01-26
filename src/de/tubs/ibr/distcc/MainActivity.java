@@ -27,7 +27,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	private static final String MOUNT_POINT = "/data";
 	private static final String PATH_SCRIPTS = "/root/debidroidcc-master";
 	public static final int NOTIFICATION_ID_ONPAUSE = 0;
-	private boolean isRunning = false;
+
+	private DebiDroidCC app;
 
 	private String debianDir;
 	private MenuItem toggleItem;
@@ -44,22 +45,13 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		app = (DebiDroidCC) getApplication();
+
+
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		debianDir = MOUNT_POINT + sharedPreferences.getString(PreferencesActivity.KEY_TARGET, getString(R.string.pref_targetDebian_d));
 		Log.i(TAG, "debianDir="+debianDir);
 
-
-		/*
-		final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
-		scrollView.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-			}
-		}, 500);
-		*/
-		//move all the assets to certain directory
-		//maybe we just do this for the first time ;)
 		try {
 			String[] assets = { "busybox", "deploy_debian_bootstrap.sh", "deploy-equipped-debian.sh"}; //only this busybox has correct WGET
 			File mydir = getDir("bin", Context.MODE_PRIVATE); //Creating an internal dir;
@@ -82,10 +74,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 
 		}
-
-
-
-
 	}
 
 	private void doStartDaemon() {
@@ -121,9 +109,9 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 									toggleItem.setIcon(R.drawable.owl_icon);
 								}
 							});
-
 							showNotification();
-							isRunning = true;
+
+							app.isRunning = true;
 						}
 					}
 				}
@@ -197,7 +185,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 								}
 							});
 							cancelNotification();
-							isRunning = false;
+							app.isRunning = false;
 						}
 					}
 				}
@@ -431,7 +419,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 				break;
 
 			case R.id.menu_toggle:
-				if(isRunning) {
+				if(app.isRunning) {
 					doStopDaemon();
 				} else {
 					doStartDaemon();

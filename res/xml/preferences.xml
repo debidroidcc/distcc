@@ -2,18 +2,30 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
 	<PreferenceCategory
 			android:title="@string/pref_cat_debian"
 			android:key="pref_key_debian">
-
 
 		<EditTextPreference
 				android:title="@string/pref_targetDebian"
 				android:key="pref_targetDebian"
 				android:summary="Target directory where the Debian goes, relative to /data"
 				android:defaultValue="@string/pref_targetDebian_d"
+				/>
+
+	</PreferenceCategory>
+
+
+	<PreferenceCategory
+			android:title="@string/pref_cat_master"
+			android:key="pref_key_master">
+
+
+		<EditTextPreference
+				android:title="@string/pref_masterIP"
+				android:key="pref_masterIP"
+				android:summary="IP of the Master"
+				android:defaultValue="@string/pref_masterIP_d"
 				/>
 
 	</PreferenceCategory>
