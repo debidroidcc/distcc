@@ -21,7 +21,8 @@ public class PreferencesActivity extends Activity {
 
 
 	public static final String KEY_TARGET = "pref_targetDebian";
-	public static final String KEY_MASTERIP = "pref_masterIP";
+	public static final String KEY_MASTER_IP = "pref_masterIP";
+	public static final String KEY_MASTER_PORT = "pref_masterPort";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +49,18 @@ public class PreferencesActivity extends Activity {
 
 
 		private void setSummary() {
-			/*
+
 			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-			Preference p = findPreference(KEY_SERVERIP);
+			Preference p = findPreference(KEY_MASTER_IP);
 			if(p != null) {
 				if(isAdded())
-					p.setSummary(sharedPreferences.getString(KEY_SERVERIP, getString(R.string.pref_server_ip_d)));
+					p.setSummary(sharedPreferences.getString(KEY_MASTER_IP, getString(R.string.pref_masterIP_d)));
 			}
-			p = findPreference(KEY_SERVERPORT);
+			p = findPreference(KEY_MASTER_PORT);
 			if(p != null) {
 				if(isAdded())
-					p.setSummary(sharedPreferences.getString(KEY_SERVERPORT, getString(R.string.pref_server_port_d)));
+					p.setSummary(sharedPreferences.getString(KEY_MASTER_PORT, getString(R.string.pref_masterPort_d)));
 			}
-			*/
 		}
 
 		@Override

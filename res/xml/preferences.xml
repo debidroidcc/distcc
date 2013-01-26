@@ -28,5 +28,13 @@
 				android:defaultValue="@string/pref_masterIP_d"
 				/>
 
+		<EditTextPreference
+				android:title="@string/pref_masterPort"
+				android:key="pref_masterPort"
+				android:summary="Port of the Master"
+				android:defaultValue="@string/pref_masterPort_d"
+				android:inputType="number"
+				/>
+
 	</PreferenceCategory>
 </PreferenceScreen>

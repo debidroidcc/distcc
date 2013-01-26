@@ -16,8 +16,11 @@
 	<string name="pref_targetDebian">Target Directory</string>
 	<string name="pref_targetDebian_d">/debian</string>
 
+
 	<string name="pref_masterIP">IP</string>
 	<string name="pref_masterIP_d">localhost</string>
 
+	<string name="pref_masterPort">Port</string>
+	<string name="pref_masterPort_d">8855</string>
 
 </resources>
