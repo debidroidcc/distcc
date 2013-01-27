@@ -27,8 +27,8 @@ public class DebiDroidCC extends Application {
 
 
 	private static final String TAG = DebiDroidCC.class.getName();
-	protected final int STATUS_PLUGGED = 0;
-	protected final int STATUS_UNPLUGGED = 1;
+	protected static final int STATUS_PLUGGED = 0;
+	protected static final int STATUS_UNPLUGGED = 1;
 
 	private Handler handler;
 	public SharedPreferences sharedPreferences;

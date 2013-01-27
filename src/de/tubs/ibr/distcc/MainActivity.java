@@ -161,6 +161,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	}
 
 	private void doStopDaemon() {
+		app.sendStatus(DebiDroidCC.STATUS_UNPLUGGED);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -244,7 +245,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 			"export debian_dir="+debianDir+"\n",
 			"cd /data/data/de.tubs.ibr.distcc/app_bin/\n",
 			"chmod 0777 busybox\n",
-			"/data/data/berserker.android.apps.sshdroid/home/bin/sed 1d deploy-equipped-debian.sh > dstrap.sh\n",
+			"/data/data/berserker.android.apps.sshdroid/home/bin/sed 1d deploy-equipped-debian.sh > dstrap.sh\n", //remove first line containing '...'
 			"sh dstrap.sh\n"
 		};
 		shellExecute(cmd, true, true);
