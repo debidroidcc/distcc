@@ -77,6 +77,14 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	}
 
 	private void doStartDaemon() {
+		/*
+		app.isRunning = true;
+		doStopDaemon();
+
+		while(app.isRunning) {
+		}
+		*/
+
 
 		new Thread(new Runnable() {
 			@Override
@@ -176,18 +184,19 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 						try {
 							osw.close();
 						} catch(IOException e) {
+						} finally {
+							synchronized(runLock) {
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										toggleItem.setIcon(R.drawable.owl_negative);
+									}
+								});
+								cancelNotification();
+								app.isRunning = false;
+							}
 						}
-						synchronized(runLock) {
 
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									toggleItem.setIcon(R.drawable.owl_negative);
-								}
-							});
-							cancelNotification();
-							app.isRunning = false;
-						}
 					}
 				}
 
@@ -382,6 +391,10 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		switch(menuItem.getItemId()) {
 			case R.id.menu_exit:
+				doStopDaemon();
+				while(app.isRunning) {
+
+				}
 				finish();
 				break;
 
@@ -410,6 +423,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 							  @Override
 							  public void onClick(DialogInterface dialogInterface, int i) {
 								  doStopDaemon();
+								  while(app.isRunning) {
+								  }
 								  doRemove();
 							  }
 						  }).setNegativeButton("No", null).show();
@@ -434,7 +449,11 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		Log.i(TAG, "onDestroY()");
 		doStopDaemon();
+		while(app.isRunning) {
+
+		}
 	}
 
 	@Override
